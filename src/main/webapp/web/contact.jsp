@@ -64,6 +64,7 @@
          <div class="col-lg-6 col-md-6">
             <div class="contact__form">
                <form action="#">
+                  <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                   <div class="row">
                      <div class="col-lg-6">
                         <input type="text" placeholder="Name">

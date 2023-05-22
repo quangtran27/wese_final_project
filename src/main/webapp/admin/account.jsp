@@ -50,6 +50,7 @@
                                 <c:forEach var="user" items="${userList}" varStatus="status">
                                     <tr>
                                         <form action = "UpdateOder">
+                                            <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                                             <td>${status.index+1}</td>
                                             <td >${user.username}</td>
                                             <td>${user.password}</td>

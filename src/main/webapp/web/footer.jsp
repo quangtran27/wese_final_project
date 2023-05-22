@@ -41,6 +41,7 @@
                <div class="footer__newslatter">
                   <p>Be the first to know about new arrivals, look books, sales & promos!</p>
                   <form action="#">
+                     <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                      <input type="text" placeholder="Your email">
                      <button type="submit"><span class="icon_mail_alt"></span></button>
                   </form>

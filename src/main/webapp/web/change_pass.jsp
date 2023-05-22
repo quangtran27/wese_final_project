@@ -74,6 +74,7 @@
       <div class="col-md-8">
       <div class="card">
         <form class="card-body" method="post" action="change-password">
+          <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
           <div class="row mb-3">
             <div class="col-sm-3">
 <%--              <h6 class="mb-0">Username</h6>--%>

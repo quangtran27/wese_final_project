@@ -50,6 +50,7 @@
                       method="post"
                       action="${pageContext.request.contextPath}/admin/category/${action}"
                   >
+                    <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                     <div class="row mb-3">
                       <input type="hidden" name="id" value="${category.id}">
                     </div>

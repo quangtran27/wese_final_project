@@ -10,6 +10,7 @@
 <div class="wrapper">
    <div class="cont s--${action}">
       <form class="form sign-in" method="post" action="${pageContext.request.contextPath}/login">
+         <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
          <h2 style="font-weight: 300;">WELCOME TO MALE FASHION STORE</h2>
          <div class="input-control">
             <input style="width: 100%;" name="username" id="name" type="text" placeholder="Username" value="${username}"/>
@@ -43,6 +44,7 @@
             </div>
          </div>
          <form class="form sign-up" method="post" action="${pageContext.request.contextPath}/register">
+            <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
             <h2 style="font-weight: 300; margin-bottom: 10px">SIGN UP FOR A MALE FASHION ACCOUNT</h2>
             <div class="input-control">
                <input name="fullName" id="nameRe" type="text" placeholder="Fullname"/>

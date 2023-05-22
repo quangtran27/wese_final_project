@@ -61,6 +61,7 @@
                           action="${pageContext.request.contextPath}/admin/category/delete  "
                           method="post"
                       >
+                        <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                         <input type="hidden" name="id" value="${category.id}">
                         <button class="text-danger" style="background-color: transparent; border: none;">Delete</button>
                       </form>

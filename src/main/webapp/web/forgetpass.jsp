@@ -66,6 +66,7 @@
         </ol>
       </div>
       <form class="card mt-4" action="./forgotPassword" method="POST">
+        <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
         <div class="card-body">
           <div class="form-group">
             <label for="email-for-pass">Enter your email address</label> <input

@@ -35,6 +35,7 @@
 						<img src="${pageContext.request.contextPath}/admin/assets/img/logo.png" alt="">
 					</div>
 					<form class="mb-3" action="login-admin" method="post">
+						<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
 						<!-- Username -->
 						<div class="mb-3">
 							<input type="text" id="email" class="form-control" name="username" placeholder="Username" autofocus/>

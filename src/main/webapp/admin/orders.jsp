@@ -48,7 +48,8 @@
                                 </thead>
                                 <c:forEach var="order" items="${listOrder}" varStatus="status">
                                     <tr>
-                                        <form action = "update-order" method="get">
+                                        <form action="update-order" method="get">
+                                            <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                                             <input name="id" value="${order.id}" hidden>
                                             <td>${order.id}</td>
                                             <td>${order.name}</td>

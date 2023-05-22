@@ -61,6 +61,7 @@
   <div class="container">
     <div class="checkout__form">
       <form action="${pageContext.request.contextPath}/order/add" method="post" id="checkout-form">
+        <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
         <div class="row">
           <div class="col-lg-6 col-md-6">
             <h6 class="checkout__title">Billing Details</h6>
@@ -138,6 +139,7 @@
   <div class="h-100 d-flex align-items-center justify-content-center">
     <div class="search-close-switch">+</div>
     <form class="search-model-form">
+      <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
       <input type="text" id="search-input" placeholder="Search here.....">
     </form>
   </div>

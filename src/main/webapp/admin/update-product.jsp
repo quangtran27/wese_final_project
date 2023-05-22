@@ -52,6 +52,7 @@
                       action="${pageContext.request.contextPath}/admin/product/${action}"
                       enctype="multipart/form-data"
                   >
+                    <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                     <div class="row mb-3">
                       <div class="col-sm-10">
                         <input class="form-control" id="id" name="id" placeholder="ID" type="hidden" value="${product.id}"/>

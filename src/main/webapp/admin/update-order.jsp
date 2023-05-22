@@ -41,6 +41,7 @@
                 </div>
                 <div class="card-body">
                   <form action="EditOder" method="get">
+                    <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                     <div class="row mb-3">
                       <label class="col-sm-2 col-form-label">ID</label>
                       <div class="col-sm-10">

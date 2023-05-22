@@ -59,6 +59,7 @@
         <div class="shop__sidebar">
           <div class="shop__sidebar__search">
             <form action="" method="get">
+              <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
               <input name="txtSearch" type="text" placeholder="Search...">
               <button type="submit"><span class="icon_search"></span></button>
             </form>
@@ -66,6 +67,7 @@
           <div class="shop__sidebar__accordion">
             <div class="accordion" id="accordionExample">
               <form action="" id="myForm">
+                <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                 <div class="card">
                   <div class="card-heading">
                     <a data-toggle="collapse" data-target="#collapseZero">Sort Price</a>
@@ -224,6 +226,7 @@
   <div class="h-100 d-flex align-items-center justify-content-center">
     <div class="search-close-switch">+</div>
     <form class="search-model-form">
+      <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
       <input type="text" name="txtSearch" id="search-input" placeholder="Search here.....">
     </form>
   </div>
