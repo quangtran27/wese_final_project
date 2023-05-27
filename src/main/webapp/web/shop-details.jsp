@@ -181,7 +181,7 @@
 </script>
 
 <!-- Js Plugins -->
-<script src="${pageContext.request.contextPath}/web/assets/js/jquery-3.3.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/web/assets/js/jquery-3.6.0.min.js"></script>
 <script src="${pageContext.request.contextPath}/web/assets/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/web/assets/js/jquery.nice-select.min.js"></script>
 <script src="${pageContext.request.contextPath}/web/assets/js/jquery.nicescroll.min.js"></script>
