@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.Random;
+import org.apache.commons.text.StringEscapeUtils;
+
 
 public class UserService {
     private final UserDAO userDAO;
@@ -307,6 +309,11 @@ public class UserService {
         String email = req.getParameter("email");
         String gender = req.getParameter("sex");
         String address = req.getParameter("address");
+//        String fullName = StringEscapeUtils.escapeHtml4(req.getParameter("name"));
+//        String phone = StringEscapeUtils.escapeHtml4(req.getParameter("phone"));
+//        String email = StringEscapeUtils.escapeHtml4(req.getParameter("email"));
+//        String gender = StringEscapeUtils.escapeHtml4(req.getParameter("sex"));
+//        String address = StringEscapeUtils.escapeHtml4(req.getParameter("address"));
         Part part = req.getPart("image");
 
         //Update image

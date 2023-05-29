@@ -87,7 +87,7 @@
                 <c:otherwise><img src="${pageContext.request.contextPath}/web/assets/img/profile/no-avartar.png" alt="Admin" class="rounded-circle" width="150"></c:otherwise>
               </c:choose>
               <div class="mt-3">
-                <h4>${userLogged.name}</h4>
+                <h4><c:out value="${userLogged.name}" escapeXml="true" /></h4>
                 <p class="text-muted font-size-sm">${userLogged.address}</p>
               </div>
             </div>
@@ -101,7 +101,7 @@
               <div class="col-sm-3">
                 <h6 class="mb-0">Full name</h6>
               </div>
-              <div class="col-sm-9 text-secondary">${userLogged.name}</div>
+              <div class="col-sm-9 text-secondary"><c:out value="${userLogged.name}" escapeXml="true" /></div>
             </div>
             <hr>
             <div class="row">
@@ -109,7 +109,7 @@
                 <h6 class="mb-0">Phone number</h6>
               </div>
               <div class="col-sm-9 text-secondary">
-                ${userLogged.phone}
+                <c:out value="${userLogged.phone}" escapeXml="true" />
               </div>
             </div>
             <hr>
@@ -118,7 +118,7 @@
                 <h6 class="mb-0">Email</h6>
               </div>
               <div class="col-sm-9 text-secondary">
-                ${userLogged.email}
+                <c:out value="${userLogged.email}" escapeXml="true" />
               </div>
             </div>
             <hr>
@@ -127,7 +127,7 @@
                 <h6 class="mb-0">Gender</h6>
               </div>
               <div class="col-sm-9 text-secondary">
-                ${userLogged.gender}
+                <c:out value="${userLogged.gender}" escapeXml="true" />
               </div>
             </div>
             <hr>
@@ -136,7 +136,7 @@
                 <h6 class="mb-0">Address</h6>
               </div>
               <div class="col-sm-9 text-secondary">
-                ${userLogged.address}
+                <c:out value="${userLogged.address}" escapeXml="true" />
               </div>
             </div>
             <hr>

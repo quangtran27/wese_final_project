@@ -90,23 +90,6 @@ public class ProductDAO {
       return product;
    }
 
-   public Product findByName(String name) {
-      Product product = null;
-
-      try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-         String HQL = "SELECT c FROM Product c WHERE c.name = :name";
-         Query query = session.createQuery(HQL);
-         query.setParameter("name", name);
-         List<Product> products = query.getResultList();
-         if (!products.isEmpty()) {
-            product = products.get(0);
-         }
-      } catch (Exception e) {
-         e.printStackTrace();
-      }
-
-      return product;
-   }
 //Lấy tất cả sản phẩm có cùng ID category
     public List<Product> getTopbyCategory(int CategoryID) {
       List<Product> products = null;
@@ -122,11 +105,11 @@ public class ProductDAO {
       return products;
    }
 
-   public List<Product> filterProduct(int CategoryID, String brand,double price, String size, int sortPrice) {
+   public List<Product> filterProduct(int CategoryID, String brand, double price, String size, int sortPrice) {
       List<Product> products = null;
 
       try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-         String HQL = "FROM  Product c where c.name!=null";
+         String HQL = "FROM Product c where c.name!=null";
          Query query;
 
          if(CategoryID != 0){
