@@ -75,9 +75,21 @@ public class ProductService {
 	}
 
 	public void getProductDetail() throws ServletException, IOException {
-		ProductDAO productdao = new ProductDAO();
+/*		ProductDAO productdao = new ProductDAO();
 		int id = Integer.parseInt(req.getParameter("id"));
-		int categoryID = Integer.parseInt(req.getParameter("CategoryID"));
+		int categoryID = Integer.parseInt(req.getParameter("CategoryID"));*/
+
+		ProductDAO productdao = new ProductDAO();
+		String pid = req.getParameter("id");
+		String cid = req.getParameter("CategoryID");
+		if ( pid == null || cid == null) {
+		  req.getRequestDispatcher("/home").forward(req, resp);
+		  return;
+		}
+		int id = Integer.parseInt(pid);
+		int categoryID = Integer.parseInt(cid);
+
+
 		Product product = productdao.get(id);
 		List<Product> products = get4ProdcutbyCategory(categoryID);
 		req.setAttribute("product", product);
@@ -119,36 +131,31 @@ public class ProductService {
 			CategoryID = Integer.parseInt(req.getParameter("CategoryID"));
 		}
 
-		////////////////
-//    try {
-//        if (req.getParameter("sortPrice") != null) {
-//            sortPrice = Integer.parseInt(req.getParameter("sortPrice"));
-//        }
-//    } catch (NumberFormatException e) {
-//        // Xử lý lỗi chuyển đổi sang số nguyên ở đây
-//        // Ví dụ: gán giá trị mặc định cho sortPrice
-//        sortPrice = 0;
-//    }
-//    String priceParameter = req.getParameter("price");
-//    if (priceParameter != null && !priceParameter.isEmpty()) {
-//        try {
-//            price = Integer.parseInt(priceParameter);
-//            // Tiếp tục xử lý số nguyên price
-//        } catch (NumberFormatException e) {
-//            // Xử lý lỗi khi không thể chuyển đổi price thành số nguyên hợp lệ
-//            // Ví dụ: ghi log, thông báo người dùng về lỗi, hoặc thực hiện các hành động khác
-//        }
-//    } else {
-//        // Xử lý khi không có tham số price trong yêu cầu
-//    }
-////////////////////////
+		try {
+			if (req.getParameter("sortPrice") != null) {
+				sortPrice = Integer.parseInt(req.getParameter("sortPrice"));
+			}
+		} catch (NumberFormatException e) {
+			sortPrice = 0;
+		}
+		String priceParameter = req.getParameter("price");
+		if (priceParameter != null && !priceParameter.isEmpty()) {
+			try {
+				price = Integer.parseInt(priceParameter);
+			} catch (NumberFormatException e) {
 
-		if ((req.getParameter("sortPrice")) != null) {
+			}
+		} else {
+		}
+
+
+
+/*		if ((req.getParameter("sortPrice")) != null) {
 			sortPrice = Integer.parseInt(req.getParameter("sortPrice"));
 		}
 		if ((req.getParameter("price")) != null) {
 			price = Integer.parseInt(req.getParameter("price"));
-		}
+		}*/
 
 		if (txtSearch != null) {
 			products = productDAO.searchByName(txtSearch);

@@ -138,14 +138,14 @@
             <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
                <div class="product__item">
                   <div class="product__item__pic set-bg " style="display: flex; justify-content: center" <%--data-setbg="${l.image}"--%>>
-                     <a href="shop-details?id=${p.id}&CategoryID=${p.category.id}">
-                        <img style="height: 100%" src="${pageContext.request.contextPath}/${p.image}" alt="">
+ <a href="shop-details?id=${encodeURIComponent(p.id)}&CategoryID=${encodeURIComponent(p.category.id)}">
+  <img style="height: 100%" src="${pageContext.request.contextPath}/${p.image}" alt="">
                      </a>
                   </div>
                   <div class="product__item__text">
                      <h6>${p.name}</h6>
-                     <a href="shop-details?id=${p.id}&CategoryID=${p.category.id}" class="add-cart">View Product Detail</a>
-                     <c:if test="${p.discount != 0}">
+ <a href="shop-details?id=${encodeURIComponent(p.id)}&CategoryID=${encodeURIComponent(p.category.id)}" class="add-cart">View Product Detail</a>
+  <c:if test="${p.discount != 0}">
                         <h5>$${p.discount} <span style="text-decoration: line-through; font-size: 16px; font-weight: 500; color: gray;" >$${p.price}</span></h5>
                      </c:if>
                      <c:if test="${p.discount == 0}">

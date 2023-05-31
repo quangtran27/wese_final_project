@@ -1,6 +1,8 @@
 package com.onlinestorewepr.controller.web.authentication;
 
 import com.onlinestorewepr.service.UserService;
+import org.owasp.validator.html.PolicyException;
+import org.owasp.validator.html.ScanException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,6 +23,13 @@ public class UseRegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         UserService userService = new UserService(req,resp);
-        userService.userRegister();
+        try {
+            userService.userRegister();
+        } catch (ScanException e) {
+            throw new RuntimeException(e);
+        } catch (PolicyException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 }

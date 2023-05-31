@@ -42,7 +42,7 @@
                <span class="m--in">Sign in</span>
             </div>
          </div>
-         <form class="form sign-up" method="post" action="${pageContext.request.contextPath}/register">
+         <form id="form" class="form sign-up" method="post" action="${pageContext.request.contextPath}/register">
             <h2 style="font-weight: 300; margin-bottom: 10px">SIGN UP FOR A MALE FASHION ACCOUNT</h2>
             <div class="input-control">
                <input name="fullName" id="nameRe" type="text" placeholder="Fullname"/>

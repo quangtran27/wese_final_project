@@ -9,6 +9,7 @@ import com.onlinestorewepr.entity.Cart;
 import com.onlinestorewepr.entity.User;
 import com.onlinestorewepr.util.CommonUtil;
 import com.onlinestorewepr.util.MessageUtil;
+import org.owasp.validator.html.*;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -58,15 +59,41 @@ public class UserService {
         }
         return false;
     }
-    public void userRegister() throws IOException,ServletException{
-        String name = req.getParameter("fullName");
+    public void userRegister() throws IOException, ServletException, ScanException, PolicyException {
+     /*   String name = req.getParameter("fullName");
         String username = req.getParameter("usernameNew");
         String password = req.getParameter("passwordNew");
         String passwordReenter = req.getParameter("passwordNewRetype");
         String phone =req.getParameter("phone");
         String email =req.getParameter("email");
-        String gender = req.getParameter("gender");
+        String gender = req.getParameter("gender");*/
+
+        String tName = req.getParameter("fullName");
+        String tUsername = req.getParameter("usernameNew");
+        String tPassword = req.getParameter("passwordNew");
+        String tPasswordReenter = req.getParameter("passwordNewRetype");
+        String tPhone =req.getParameter("phone");
+        String tEmail =req.getParameter("email");
+        String tGender = req.getParameter("gender");
+
+        String name=validateInput(tName);
+        String username=validateInput(tUsername);
+        String password=validateInput(tPassword);
+        String passwordReenter=validateInput(tPasswordReenter);
+        String phone=validateInput(tPhone);
+        String email=validateInput(tEmail);
+        String gender=validateInput(tGender);
+
+        System.out.println("name: " + name);
+        System.out.println("username: " + username);
+        System.out.println("password: " + password);
+        System.out.println("passwordReenter: " + passwordReenter);
+        System.out.println("phone: " + phone);
+        System.out.println("email: " + email);
+
+
         String message = "";
+
 
         //Check user is in database?
         User userCreated = userDAO.findUserCreated(username);
@@ -703,5 +730,15 @@ public class UserService {
         System.out.println(user.getName());
         req.setAttribute("user", user);
         req.getRequestDispatcher("update-account.jsp").forward(req, resp);
+    }
+    String validateInput(String possibleDirtyInput) throws ScanException, PolicyException {
+        String policyFile = "D:\\Nam3\\HK2\\BMW\\Project\\wese_final_project\\src\\main\\webapp\\WEB-INF\\antisamy-slashdot-1.4.4.xml";
+        Policy policy = Policy.getInstance(policyFile);
+
+        AntiSamy antiSamy = new AntiSamy();
+        CleanResults cleanResults = antiSamy.scan(possibleDirtyInput, policy);
+
+        String sanitizedInput = cleanResults.getCleanHTML();
+        return sanitizedInput;
     }
 }
