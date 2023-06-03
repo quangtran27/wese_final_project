@@ -9,17 +9,17 @@
 <body>
 <div class="wrapper">
    <div class="cont s--${action}">
-      <form class="form sign-in" method="post" action="${pageContext.request.contextPath}/login">
+      <form class="form sign-in" method="post" action="${pageContext.request.contextPath}/login" autocomplete="off">
          <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
          <h2 style="font-weight: 300;">WELCOME TO MALE FASHION STORE</h2>
          <div class="input-control">
-            <input style="width: 100%;" name="username" id="name" type="text" placeholder="Username" value="${username}"/>
+            <input style="width: 100%;" name="username" id="name" type="text" placeholder="Username" value="${username}" autocomplete="off"/>
          </div>
          <div class="input-control">
-            <input style="width: 100%;" name="password" id="pass" type="password" placeholder="Password" value="${password}"/>
+            <input style="width: 100%;" name="password" id="pass" type="password" placeholder="Password" value="${password}" autocomplete="off"/>
          </div>
          <div class="form-group text-center">
-            <input style="margin: 0 8px 0 2px;" type="checkbox" tabindex="3" class="" name="remember" id="remember">
+            <input style="margin: 0 8px 0 2px;" type="checkbox" tabindex="3" class="" name="remember" id="remember" autocomplete="off">
             <label for="remember">Remember Me</label>
          </div>
          <div class="form-group">
@@ -43,38 +43,38 @@
                <span class="m--in">Sign in</span>
             </div>
          </div>
-         <form class="form sign-up" method="post" action="${pageContext.request.contextPath}/register">
+         <form class="form sign-up" method="post" action="${pageContext.request.contextPath}/register" autocomplete="off">
             <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
             <h2 style="font-weight: 300; margin-bottom: 10px">SIGN UP FOR A MALE FASHION ACCOUNT</h2>
             <div class="input-control">
-               <input name="fullName" id="nameRe" type="text" placeholder="Fullname"/>
+               <input name="fullName" id="nameRe" type="text" placeholder="Fullname" autocomplete="off"/>
             </div>
             <div class="input-control">
-               <input name="usernameNew" id="usernameR" type="text" placeholder="Username"/>
+               <input name="usernameNew" id="usernameR" type="text" placeholder="Username" autocomplete="off"/>
             </div>
             <div class="input-control">
-               <input name="phone" id="phone" type="text" placeholder="Phone number"/>
+               <input name="phone" id="phone" type="text" placeholder="Phone number" autocomplete="off"/>
             </div>
             <div class="input-control">
-               <input name="email" id="email" type="email" placeholder="Email"/>
+               <input name="email" id="email" type="email" placeholder="Email" autocomplete="off"/>
             </div>
             <div class="input-control">
-               <input name="passwordNew" id="passwd" type="password"  placeholder="Password"/>
+               <input name="passwordNew" id="passwd" type="password"  placeholder="Password" autocomplete="off"/>
             </div>
             <div class="input-control">
-               <input name="passwordNewRetype" id="passwdRetype" type="password"  placeholder="Re-enter password"/>
+               <input name="passwordNewRetype" id="passwdRetype" type="password"  placeholder="Re-enter password" autocomplete="off"/>
             </div>
             <div class="input-control radio">
                   <span>
-                     <input type="radio" name="gender" id="gender-male" value="Name">
+                     <input type="radio" name="gender" id="gender-male" value="Name" autocomplete="off">
                      <label for="gender-male">Male</label>
                   </span>
                <span>
-                     <input type="radio" name="gender" id="gender-female" value="Nữ">
+                     <input type="radio" name="gender" id="gender-female" value="Nữ" autocomplete="off">
                      <label for="gender-female">Female</label>
                   </span>
                <span>
-                     <input type="radio" name="gender" id="gender-others" value="Khác">
+                     <input type="radio" name="gender" id="gender-others" value="Khác" autocomplete="off">
                      <label for="gender-others">Other</label>
                   </span>
             </div>
@@ -87,12 +87,6 @@
       </div>
    </div>
 </div>
-<script>
-   window.addEventListener('load', () => {
-      document.querySelector('.img__btn').addEventListener('click', function() {
-         document.querySelector('.cont').classList.toggle('s--signup');
-      });
-   })
-</script>
+<script src="${pageContext.request.contextPath}/web/assets/js/authentication.js"></script>
 </body>
 </html>
