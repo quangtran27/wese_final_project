@@ -54,14 +54,14 @@ public class ProductService {
     return productDAO.get(id);
   }
   public void getProductDetail() throws ServletException, IOException {
-    ProductDAO productdao = new ProductDAO();
     int id = Integer.parseInt(req.getParameter("id"));
     int categoryID = Integer.parseInt(req.getParameter("CategoryID"));
-    Product product = productdao.get(id);
+
+    Product product = productDAO.get(id);
     List<Product> products = get4ProductByCategory(categoryID);
+
     req.setAttribute("product", product );
     req.setAttribute("products", products);
-
     req.getRequestDispatcher("/web/shop-details.jsp").forward(req, resp);
   }
 

@@ -103,7 +103,6 @@ public class UserOrderService {
         String email = request.getParameter("email");
         String note = request.getParameter("note");
         String[] cartItemIds = request.getParameterValues("cartItem");
-        double total = Double.parseDouble(request.getParameter("total"));
         String payment = request.getParameter("payment-mode");
 
         boolean isValidData = !fullName.isEmpty() &&
@@ -111,19 +110,22 @@ public class UserOrderService {
                 !address.isEmpty() &&
                 !email.isEmpty() &&
                 cartItemIds.length > 0 &&
-                total >= 0 &&
                 !payment.isEmpty();
 
         if (isValidData) {
+          Double total = 0d;
           List<OrderItem> orderItems = new ArrayList<>();
           for (String idString: cartItemIds) {
-            int cartItemId = Integer.parseInt(idString);
-            CartItem cartItem = new CartItemDAO().get(cartItemId);
+            CartItem cartItem = new CartItemDAO().get(Integer.parseInt(idString));
+
             OrderItem orderItem = new OrderItem();
             orderItem.setProduct(cartItem.getProduct());
             orderItem.setPrice(cartItem.getProduct().getDiscount() == 0 ? cartItem.getProduct().getPrice() : cartItem.getProduct().getDiscount());
             orderItem.setQuantity(cartItem.getQuantity());
+
             orderItems.add(orderItem);
+
+            total += orderItem.getPrice();
           }
 
           Order order = new Order(fullName, phone, address, new Date(), total, note, payment, "created", user, orderItems);

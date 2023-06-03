@@ -237,16 +237,6 @@ public class ProductDAO {
       }
       return products;
    }
-
-    public static void main(String[] args) {
-     ProductDAO donHangDAO = new ProductDAO();
-
-     List<Product> products = donHangDAO.filterProduct(0,"",0,"",1);
-     System.out.println(products.size());
-     for (Product p : products) {
-        System.out.println(p.getPrice());
-     }
-  }
    public Product getProductsByOrderItem(Product pr) {
       Product product = new Product();
       try (Session session = HibernateUtil.getSessionFactory().openSession()) {

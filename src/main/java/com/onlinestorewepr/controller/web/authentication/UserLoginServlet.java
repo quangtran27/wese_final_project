@@ -2,6 +2,7 @@ package com.onlinestorewepr.controller.web.authentication;
 
 import com.onlinestorewepr.dao.UserDAO;
 import com.onlinestorewepr.service.UserService;
+import com.onlinestorewepr.util.CSRFTokenGenerator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,6 +29,10 @@ public class UserLoginServlet extends HttpServlet {
     if (request.getSession().getAttribute("userLogged") != null) {
       response.sendRedirect(request.getContextPath() + "/home");
     } else {
+
+      String csrfToken = CSRFTokenGenerator.generateToken();
+      request.getSession().setAttribute("csrfToken", csrfToken);
+
       request.getRequestDispatcher("/web/authentication.jsp").forward(request, response);
     }
   }

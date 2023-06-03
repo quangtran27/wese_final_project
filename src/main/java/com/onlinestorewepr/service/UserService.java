@@ -223,39 +223,51 @@ public class UserService {
     }
 
     public void login() throws IOException, ServletException {
+        String csrfToken = "";
+        String sessionCsrfToken = "";
         //Get param from form
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String remember = req.getParameter("remember");
-        String errMessage = "";
-        boolean hasErr = false;
-
-        //Check account in database
+        // Check existed user
         User user = authenticate(username, password);
         User userCreated = userDAO.get(username);
         boolean isRememberMe = "on".equals(remember);
 
-        //Check enter
-        if(username == null ||password==null || username.length()==0 || password.length()==0){
-            hasErr= true;
-            errMessage ="Username & Password cannot be empty!";
-        }
-        else {
-            try {
-                //Enter Wrong username/password
-                if (user == null) {
-                    hasErr = true;
-                    errMessage ="Username & Password is not correct!";
-                }
-                if (userCreated == null) {
-                    hasErr = true;
-                    errMessage ="Account does not exist!";
-                }
-            }
-            catch (Exception e) {
-                e.printStackTrace();
+
+
+        boolean hasErr = false;
+        String errMessage = "";
+
+        csrfToken = req.getParameter("csrfToken") != null ? req.getParameter("csrfToken") : "";
+        sessionCsrfToken = req.getSession().getAttribute("csrfToken") != null ? req.getSession().getAttribute("csrfToken").toString() : "";
+
+        if (!csrfToken.equals(sessionCsrfToken) || csrfToken.isEmpty()) {
+            hasErr = true;
+            errMessage = "An error has occurred. You should not enter your login information on any other website.";
+        } else {
+            // Handle login
+            if (username == null || password == null || username.length() == 0 || password.length() == 0) {
                 hasErr = true;
-                errMessage = e.getMessage();
+                errMessage = "Username & Password cannot be empty!";
+            }
+            else {
+                try {
+                    //Enter Wrong username/password
+                    if (user == null) {
+                        hasErr = true;
+                        errMessage = "Username & Password is not correct!";
+                    }
+                    if (userCreated == null) {
+                        hasErr = true;
+                        errMessage ="Account does not exist!";
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                    hasErr = true;
+                    errMessage = e.getMessage();
+                }
             }
         }
 
@@ -268,8 +280,6 @@ public class UserService {
             HttpSession session = req.getSession();
             session.setMaxInactiveInterval(3600); // 1 hour
 
-            String CSRF = CSRFTokenGenerator.generateToken();
-            session.setAttribute("csrfToken", CSRF);
             session.setAttribute("userLogged", user);
             if (isRememberMe) {
                 saveRememberMe(resp, username, password);
