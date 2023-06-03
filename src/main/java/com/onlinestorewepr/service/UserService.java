@@ -442,11 +442,12 @@ public class UserService {
         User user = userDAO.findUserByEmail(email);
 
         //Validate enter
-        if (email.equals("")) {
+        if (email == null || email.equals("")){
             messageBody = "Please enter your email!";
             messageType = "danger";
         }
-        else if (user != null) {
+
+        else if(user!=null) {
             // Random otp
             Random rand = new Random();
             otpvalue = rand.nextInt(1255650);
