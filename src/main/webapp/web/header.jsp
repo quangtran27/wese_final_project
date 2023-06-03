@@ -78,10 +78,5 @@
       <div class="canvas__open"><i class="fa fa-bars"></i></div>
    </div>
 </header>
-<script>
-   document.getElementById('user-img').onerror = (e) => {
-      const defaultImgUrl = location.origin + '/web/assets/img/default-user-img.png';
-      e.target.setAttribute('src', defaultImgUrl);
-   }
-</script>
+<script src="${pageContext.request.contextPath}/web/assets/js/profile.js"></script>
 <!-- Header Section End -->

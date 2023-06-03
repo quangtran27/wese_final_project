@@ -23,6 +23,8 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.Random;
 import org.apache.commons.text.StringEscapeUtils;
+import org.mindrot.jbcrypt.BCrypt;
+import org.owasp.encoder.Encode;
 
 
 public class UserService {
@@ -42,7 +44,7 @@ public class UserService {
     public User authenticate(String username, String password) {
         User user = userDAO.get(username);
         if (user != null && !user.isAdmin()) {
-            if (password.equals(user.getPassword())) {
+            if(BCrypt.checkpw(password, user.getPassword())) {
                 return user;
             }
         }
@@ -186,11 +188,12 @@ public class UserService {
             }
 
             if(check) {
+                String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
                 //Created User
                 User userNew = new User();
                 userNew.setUsername(username);
                 if(!password.equals("")){
-                    userNew.setPassword(password);
+                    userNew.setPassword(hashedPassword);
                 }
                 userNew.setName(name);
                 userNew.setGender(gender);
@@ -217,6 +220,8 @@ public class UserService {
         Cookie pass = new Cookie("password",password);
         username.setMaxAge(60 * 60 * 24 * 365 * 3);
         pass.setMaxAge(60 * 60 * 24 * 365 * 3);
+        username.setSecure(true);
+        pass.setSecure(true);
         response.addCookie(username);
         response.addCookie(pass);
         response.setContentType("text/html");
@@ -310,7 +315,14 @@ public class UserService {
         req.setAttribute("user", user);
         req.getRequestDispatcher("/web/edit-profile.jsp").forward(req,resp);
     }
-
+    // Hàm sử dụng OWASP Java Encoder để mã hóa dữ liệu đầu vào và ngăn chống XSS
+    private String sanitizeInput(String input) {
+        if (input != null) {
+            // Mã hóa dữ liệu đầu vào sử dụng OWASP Java Encoder
+            input = Encode.forHtml(input);
+        }
+        return input;
+    }
     public void updateUserProfile() throws ServletException, IOException{
         resp.setContentType("text/html;charset=UTF-8");
         User user = (User) req.getSession().getAttribute("userLogged");
@@ -319,6 +331,14 @@ public class UserService {
         String email = req.getParameter("email");
         String gender = req.getParameter("sex");
         String address = req.getParameter("address");
+
+        // Lấy dữ liệu đầu vào từ request và áp dụng OWASP Java Encoder để mã hóa dữ liệu
+//        String fullName = sanitizeInput(req.getParameter("name"));
+//        String phone = sanitizeInput(req.getParameter("phone"));
+//        String email = sanitizeInput(req.getParameter("email"));
+//        String gender = sanitizeInput(req.getParameter("sex"));
+//        String address = sanitizeInput(req.getParameter("address"));
+
 //        String fullName = StringEscapeUtils.escapeHtml4(req.getParameter("name"));
 //        String phone = StringEscapeUtils.escapeHtml4(req.getParameter("phone"));
 //        String email = StringEscapeUtils.escapeHtml4(req.getParameter("email"));
