@@ -63,6 +63,7 @@
          <div class="row d-flex justify-content-center">
             <div class="col-lg-8">
                <form action="${pageContext.request.contextPath}/web/buy" method="post">
+                  <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                   <div class="product__details__text">
                      <input name="ProductId" value="${p.id}" hidden>
                      <h4>${p.name}</h4>
@@ -169,6 +170,7 @@
    <div class="h-100 d-flex align-items-center justify-content-center">
       <div class="search-close-switch">+</div>
       <form class="search-model-form">
+         <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
          <input type="text" id="search-input" placeholder="Search here.....">
       </form>
    </div>

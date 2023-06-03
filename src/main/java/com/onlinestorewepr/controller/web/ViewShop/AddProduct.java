@@ -18,6 +18,6 @@ public class AddProduct extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     CartItemService cartItemService = new CartItemService(req, resp);
-    cartItemService.addProduct();
+    cartItemService.addToCart();
   }
 }

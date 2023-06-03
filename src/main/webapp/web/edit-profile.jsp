@@ -73,6 +73,7 @@
         <div class="col-md-8">
           <div class="card">
             <form class="card-body" method="post" action="update-profile" enctype="multipart/form-data">
+              <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
               <div class="row mb-3">
                 <div class="col-sm-9 text-secondary">
                   <input type="hidden" class="form-control" id="user-name" name="username" disabled value="${userLogged.username}">

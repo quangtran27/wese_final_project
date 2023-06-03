@@ -41,6 +41,7 @@
                 </div>
                 <div class="card-body">
                   <form action="EditOder" method="get">
+                    <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                     <div class="row mb-3">
                       <label class="col-sm-2 col-form-label">ID</label>
                       <div class="col-sm-10">
@@ -89,7 +90,6 @@
                             <c:forEach var="orderItem" items="${orderItemList}" varStatus="status">
                               <tr>
                                 <td><i class="fab fa-angular fa-lg text-danger"></i> <strong>${orderItem.product.name}</strong></td>
-<%--                                <c:if test="${products.}"--%>
                                 <td><strong>${orderItem.price}</strong></td>
                                 <td><strong class="ms-4">${orderItem.quantity}</strong></td>
                                 <td><strong>${orderItem.price * orderItem.quantity}</strong></td>
@@ -103,7 +103,7 @@
                     <div class="row mb-3">
                       <label class="col-sm-2 col-form-label">Total</label>
                       <div class="col-sm-10">
-                        <span class="d-flex justify-content-sm-end fs-large me-4 text-primary"><strong>${total}</strong></span>
+                        <span class="d-flex justify-content-sm-end fs-large me-4 text-primary"><strong>${order.total}</strong></span>
                       </div>
                     </div>
                     <div class="row mb-3">

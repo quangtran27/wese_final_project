@@ -41,6 +41,7 @@
                 </div>
                 <div class="card-body">
                   <form action="EditUser" method="post">
+                    <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                     <div class="row mb-3">
                       <label class="col-sm-2 col-form-label">username</label>
                       <div class="col-sm-10">

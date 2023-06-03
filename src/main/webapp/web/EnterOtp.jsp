@@ -43,7 +43,7 @@
 
               <form id="register-form" action="./ValidateOtp" role="form" autocomplete="off"
                     class="form" method="post">
-
+                <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                 <div class="form-group">
                   <div class="input-group">
 											<span class="input-group-addon"><i

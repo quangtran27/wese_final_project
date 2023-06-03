@@ -10,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CartItemService {
@@ -25,47 +24,58 @@ public class CartItemService {
         this.resp = resp;
         cartItemDAO = new CartItemDAO();
     }
-
-    public void addProduct() throws IOException {
+    public void addToCart() throws IOException {
         User loggedUser = (User) req.getSession().getAttribute("userLogged");
         if (loggedUser != null) {
-            User user = new UserDAO().get(loggedUser.getUsername());
-            ProductService productService = new ProductService(req, resp);
-            CartItemDAO cartItemdao = new CartItemDAO();
+            String token = req.getSession().getAttribute("csrfToken").toString();
+            String requestToken = req.getParameter("csrfToken");
+            try {
+                if (token.equals(requestToken)) {
+                    User user = new UserDAO().get(loggedUser.getUsername());
+                    ProductService productService = new ProductService(req, resp);
+                    CartItemDAO cartItemdao = new CartItemDAO();
 
-            int productID =Integer.parseInt(req.getParameter("ProductId"));
-            int quantity = Integer.parseInt(req.getParameter("quantity"));
+                    int productID = Integer.parseInt(req.getParameter("ProductId"));
+                    int quantity = Integer.parseInt(req.getParameter("quantity"));
 
-            Product product = productService.getProduct(productID);
-            Cart cart = user.getCart();
+                    Product product = productService.getProduct(productID);
+                    Cart cart = user.getCart();
 
-            if (quantity > 0 && quantity <= product.getQuantity()) {
-                // Cart had product(s)
-                if (cart.getCartItems().size() > 0) {
-                    boolean isExisted = false;
-                    for (CartItem c : cart.getCartItems()) {
-                        // Cart already has this product
-                        if (c.getProduct().getId() == productID) {
-                            c.setQuantity(c.getQuantity() + quantity);
-                            cartItemDAO.update(c);
-                            isExisted = true;
-                            break;
+                    if (quantity > 0 && quantity <= product.getQuantity()) {
+                        // Cart had product(s)
+                        if (cart.getCartItems().size() > 0) {
+                            boolean isExisted = false;
+                            for (CartItem c : cart.getCartItems()) {
+                                // Cart already has this product
+                                if (c.getProduct().getId() == productID) {
+                                    c.setQuantity(c.getQuantity() + quantity);
+                                    cartItemDAO.update(c);
+                                    isExisted = true;
+                                    break;
+                                }
+                            }
+                            if (!isExisted) {
+                                CartItem cartItem = new CartItem(cart, product, quantity);
+                                cartItemdao.insert(cartItem);
+                            }
                         }
+                        // Cart is empty
+                        else {
+                            CartItem cartItem = new CartItem(cart, product, quantity);
+                            cartItemdao.insert(cartItem);
+                        }
+                        resp.sendRedirect(req.getContextPath() + "/shop");
+                        return;
                     }
-                    if (!isExisted) {
-                        CartItem cartItem = new CartItem(cart, product, quantity);
-                        cartItemdao.insert(cartItem);
-                    }
+                    resp.sendRedirect(req.getContextPath() + "/shop");
+                } else {
+                    // Token is not same
+                    resp.sendRedirect(req.getContextPath() + "/logout");
                 }
-                // Cart is empty
-                else {
-                    CartItem cartItem = new CartItem(cart, product, quantity);
-                    cartItemdao.insert(cartItem);
-                }
-                resp.sendRedirect(req.getContextPath() + "/shop?message=The%20product%20has%20been%20successfully%20added%20to%20your%20cart&messageType=success");
-                return;
+            } catch (Exception e) {
+                System.out.println("Exception while add to cart: " + e.getMessage());
+                resp.sendRedirect(req.getContextPath() + "/shop");
             }
-            resp.sendRedirect(req.getContextPath() + "/shop?message=An%20error%20occurred,%20the%20product%20has%20not%20been%20added%20to%20your%20cart&messageType=danger");
         } else {
             resp.sendRedirect(req.getContextPath() + "/login");
         }

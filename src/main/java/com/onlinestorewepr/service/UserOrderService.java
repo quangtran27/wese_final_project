@@ -15,22 +15,22 @@ import java.util.Date;
 import java.util.List;
 
 public class UserOrderService {
-  private HttpServletRequest req;
-  private HttpServletResponse resp;
+  private HttpServletRequest request;
+  private HttpServletResponse response;
   private OrderDAO orderDAO;
   private MessageUtil messageUtil;
 
-  public HttpServletRequest getReq() {
-    return req;
+  public HttpServletRequest getRequest() {
+    return request;
   }
-  public void setReq(HttpServletRequest req) {
-    this.req = req;
+  public void setRequest(HttpServletRequest request) {
+    this.request = request;
   }
-  public HttpServletResponse getResp() {
-    return resp;
+  public HttpServletResponse getResponse() {
+    return response;
   }
-  public void setResp(HttpServletResponse resp) {
-    this.resp = resp;
+  public void setResponse(HttpServletResponse response) {
+    this.response = response;
   }
   public OrderDAO getOrderDAO() {
     return orderDAO;
@@ -45,83 +45,90 @@ public class UserOrderService {
     this.messageUtil = messageUtil;
   }
   public UserOrderService(HttpServletRequest req, HttpServletResponse resp) {
-    this.req = req;
-    this.resp = resp;
+    this.request = req;
+    this.response = resp;
     this.orderDAO = new OrderDAO();
     this.messageUtil = new MessageUtil();
   }
 
   public void viewCheckout() throws IOException {
     // Fake user login
-    HttpSession session = req.getSession();
+    HttpSession session = request.getSession();
     User user = (User)session.getAttribute("userLogged");
     if (user != null) {
       try {
         Cart cart = user.getCart();
         // Get selected cart item
-        String[] selectedCartItemIds = req.getParameter("cart_items").split(",");
+        String[] selectedCartItemIds = request.getParameter("cart_items").split(",");
         List<CartItem> cartItems = new ArrayList<>();
         for (String item: selectedCartItemIds) {
           int cartItemId = Integer.parseInt(item);
           cartItems.add(new CartItemDAO().get(cartItemId));
         }
 
-        req.setAttribute("cartItems", cartItems);
-        req.setAttribute("user", user);
-        req.getRequestDispatcher("/web/checkout.jsp").forward(req, resp);
+        request.setAttribute("cartItems", cartItems);
+        request.setAttribute("user", user);
+        request.getRequestDispatcher("/web/checkout.jsp").forward(request, response);
 
       } catch (Exception ex) {
         ex.printStackTrace();
       }
     }
     else {
-      resp.sendRedirect("/login");
+      response.sendRedirect("/login");
     }
   }
 
   public void addOrder() throws ServletException, IOException {
-    req.setCharacterEncoding("UTF-8");
+    request.setCharacterEncoding("UTF-8");
     String subject;
     String body;
     String action;
     String actionTitle;
 
-    // Fake user login
-    HttpSession session = req.getSession(true);
+    HttpSession session = request.getSession(true);
     User user = (User)session.getAttribute("userLogged");
-    if (user != null) {
-      try {
+    try {
+      String csrfToken = request.getParameter("csrfToken");
+      // Compare with token in session
+      if (!csrfToken.equals(request.getSession().getAttribute("csrfToken"))) {
+        body = "Thông tin xác thực không hợp lệ";
+        action = "/home";
+        actionTitle = "Quay về trang chủ";
+      } else {
         // Get data from request
-        String fullname = req.getParameter("name");
-        String phone = req.getParameter("phone");
-        String address = req.getParameter("address");
-        String email = req.getParameter("email");
-        String note = req.getParameter("note");
-        String[] cartItemIds = req.getParameterValues("cartItem");
-        double total = Double.parseDouble(req.getParameter("total"));
-        String payment = req.getParameter("payment-mode");
+        String fullName = request.getParameter("name");
+        String phone = request.getParameter("phone");
+        String address = request.getParameter("address");
+        String email = request.getParameter("email");
+        String note = request.getParameter("note");
+        String[] cartItemIds = request.getParameterValues("cartItem");
+        String payment = request.getParameter("payment-mode");
 
-        boolean isValidData = !fullname.isEmpty() &&
-                              !phone.isEmpty() &&
-                              !address.isEmpty() &&
-                              !email.isEmpty() &&
-                              cartItemIds.length > 0 &&
-                              total >= 0 &&
-                              !payment.isEmpty();
+        boolean isValidData = !fullName.isEmpty() &&
+                !phone.isEmpty() &&
+                !address.isEmpty() &&
+                !email.isEmpty() &&
+                cartItemIds.length > 0 &&
+                !payment.isEmpty();
 
         if (isValidData) {
+          Double total = 0d;
           List<OrderItem> orderItems = new ArrayList<>();
           for (String idString: cartItemIds) {
-            int cartItemId = Integer.parseInt(idString);
-            CartItem cartItem = new CartItemDAO().get(cartItemId);
+            CartItem cartItem = new CartItemDAO().get(Integer.parseInt(idString));
+
             OrderItem orderItem = new OrderItem();
             orderItem.setProduct(cartItem.getProduct());
             orderItem.setPrice(cartItem.getProduct().getDiscount() == 0 ? cartItem.getProduct().getPrice() : cartItem.getProduct().getDiscount());
             orderItem.setQuantity(cartItem.getQuantity());
+
             orderItems.add(orderItem);
+
+            total += orderItem.getPrice();
           }
 
-          Order order = new Order(fullname, phone, address, new Date(), total, note, payment, "created", user, orderItems);
+          Order order = new Order(fullName, phone, address, new Date(), total, note, payment, "created", user, orderItems);
           orderDAO.insert(order);
 
           // Delete the corresponding cartItem
@@ -155,7 +162,7 @@ public class UserOrderService {
           // Send email notify
           String emailSubject = "New Order (#" + order.getId() + ") from Male Fashion Store for & " + order.getTotal();
           StringBuilder emailBody = new StringBuilder("*** This is an automated message - please do not reply directly to this email ***\n");
-          emailBody.append("Customer: ").append(fullname).append("\n");
+          emailBody.append("Customer: ").append(fullName).append("\n");
           emailBody.append("Phone: ").append(phone).append("\n");
           emailBody.append("Address: ").append(address).append("\n");
           emailBody.append("Your order details:");
@@ -173,17 +180,17 @@ public class UserOrderService {
           actionTitle = "Return to cart page";
         }
         subject = "Notification";
-        req.setAttribute("subject", subject);
-      } catch (Exception ex) {
-        body = ex.getMessage();
-        action = "/cart";
-        actionTitle = "Return to cart page";
+        request.setAttribute("subject", subject);
       }
-
-      req.setAttribute("body", body);
-      req.setAttribute("action", action);
-      req.setAttribute("actionTitle", actionTitle);
-      req.getRequestDispatcher("/web/information.jsp").forward(req, resp);
+    } catch (Exception ex) {
+      body = ex.getMessage();
+      action = "/cart";
+      actionTitle = "Return to cart page";
     }
+
+    request.setAttribute("body", body);
+    request.setAttribute("action", action);
+    request.setAttribute("actionTitle", actionTitle);
+    request.getRequestDispatcher("/web/information.jsp").forward(request, response);
   }
 }

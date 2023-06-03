@@ -46,12 +46,13 @@
                         <hr class="my-0" />
                         <div class="card-body">
                            <form method="post" action="update-admin-profile" enctype="multipart/form-data">
-                           <div class="row mb-3">
-                              <label class="col-sm-2 col-form-label">Display name</label>
-                              <div class="col-sm-10">
-                                 <input type="text" class="form-control" id="admin-name" name="name" value="${adminLogged.name}">
-                              </div>
-                           </div>
+                               <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
+                               <div class="row mb-3">
+                                  <label class="col-sm-2 col-form-label">Display name</label>
+                                  <div class="col-sm-10">
+                                     <input type="text" class="form-control" id="admin-name" name="name" value="${adminLogged.name}">
+                                  </div>
+                               </div>
                                <div class="row mb-3">
                                    <label class="col-sm-3 col-form-label" for="image">Choose image</label>
                                    <div class="col-sm-9">

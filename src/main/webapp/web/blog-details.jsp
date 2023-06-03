@@ -136,6 +136,7 @@
                <div class="blog__details__comment">
                   <h4>Leave A Comment</h4>
                   <form action="#">
+                     <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                      <div class="row">
                         <div class="col-lg-4 col-md-4">
                            <input type="text" placeholder="Name">
@@ -169,6 +170,7 @@
    <div class="h-100 d-flex align-items-center justify-content-center">
       <div class="search-close-switch">+</div>
       <form class="search-model-form">
+         <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
          <input type="text" id="search-input" placeholder="Search here.....">
       </form>
    </div>
