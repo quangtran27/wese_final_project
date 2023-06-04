@@ -5,6 +5,7 @@
    <title>Sign In/Sign Up</title>
    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
    <link rel="stylesheet" href="${pageContext.request.contextPath}/web/assets/css/authentication.css">
+   <script src="https://www.google.com/recaptcha/api.js"></script>
 </head>
 <body>
 <div class="wrapper">
@@ -24,6 +25,7 @@
          <div class="form-group">
             <a href="${pageContext.request.contextPath}/web/forgotPassword" class="forgot-pass">Forget password?</a>
          </div>
+
          <p class="message-text">${message}</p>
          <button type="submit" class="submit">Sign In</button>
       </form>
@@ -43,7 +45,7 @@
             </div>
          </div>
          <form id="form" class="form sign-up" method="post" action="${pageContext.request.contextPath}/register">
-            <h2 style="font-weight: 300; margin-bottom: 10px">SIGN UP FOR A MALE FASHION ACCOUNT</h2>
+<%--            <h2 style="font-weight: 100; margin-bottom: 5px">SIGN UP FOR A MALE FASHION ACCOUNT</h2>--%>
             <div class="input-control">
                <input name="fullName" id="nameRe" type="text" placeholder="Fullname"/>
             </div>
@@ -62,6 +64,7 @@
             <div class="input-control">
                <input name="passwordNewRetype" id="passwdRetype" type="password"  placeholder="Re-enter password"/>
             </div>
+
             <div class="input-control radio">
                   <span>
                      <input type="radio" name="gender" id="gender-male" value="Name">
@@ -75,6 +78,10 @@
                      <input type="radio" name="gender" id="gender-others" value="Khác">
                      <label for="gender-others">Other</label>
                   </span>
+            </div>
+<%-- triển khai CAPTCHA ở giao diện đăng ký--%>
+            <div class="form-group">
+               <div class="g-recaptcha" data-sitekey="6LfP71UmAAAAAK9ibQ1MTsnxcbPsw3C5Z8UUESxD"></div>
             </div>
             <c:choose>
                <c:when test="${messageRegisterFail!=null}"><p class="message-text-fail">${messageRegisterFail}</p></c:when>

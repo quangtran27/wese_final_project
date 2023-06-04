@@ -60,15 +60,15 @@ public class UserService {
         return false;
     }
     public void userRegister() throws IOException, ServletException, ScanException, PolicyException {
-     /*   String name = req.getParameter("fullName");
+        String name = req.getParameter("fullName");
         String username = req.getParameter("usernameNew");
         String password = req.getParameter("passwordNew");
         String passwordReenter = req.getParameter("passwordNewRetype");
         String phone =req.getParameter("phone");
         String email =req.getParameter("email");
-        String gender = req.getParameter("gender");*/
+        String gender = req.getParameter("gender");
 
-        String tName = req.getParameter("fullName");
+     /*   String tName = req.getParameter("fullName");
         String tUsername = req.getParameter("usernameNew");
         String tPassword = req.getParameter("passwordNew");
         String tPasswordReenter = req.getParameter("passwordNewRetype");
@@ -82,7 +82,7 @@ public class UserService {
         String passwordReenter=validateInput(tPasswordReenter);
         String phone=validateInput(tPhone);
         String email=validateInput(tEmail);
-        String gender=validateInput(tGender);
+        String gender=validateInput(tGender);*/
 
         System.out.println("name: " + name);
         System.out.println("username: " + username);
